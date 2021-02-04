@@ -7,7 +7,7 @@ dependencies:
   - blas=1.0=mkl
   - ca-certificates=2021.1.19=h06a4308_0
   - certifi=2020.12.5=py38h06a4308_0
-  - cudatoolkit=10.2.89=hfd86e86_1
+  - cudatoolkit=11.0.221=h6bb024c_0
   - freetype=2.10.4=h5ab3b9f_0
   - intel-openmp=2020.2=254
   - jpeg=9b=h024ee3a_2
@@ -33,14 +33,14 @@ dependencies:
   - pillow=8.1.0=py38he98fc37_0
   - pip=20.3.3=py38h06a4308_0
   - python=3.8.5=h7579374_1
-  - pytorch=1.7.1=py3.8_cuda10.2.89_cudnn7.6.5_0
+  - pytorch=1.7.1=py3.8_cuda11.0.221_cudnn8.0.5_0
   - readline=8.1=h27cfd23_0
   - setuptools=52.0.0=py38h06a4308_0
   - six=1.15.0=py38h06a4308_0
   - sqlite=3.33.0=h62c20be_0
   - tk=8.6.10=hbc83047_0
   - torchaudio=0.7.2=py38
-  - torchvision=0.8.2=py38_cu102
+  - torchvision=0.8.2=py38_cu110
   - typing_extensions=3.7.4.3=pyh06a4308_0
   - wheel=0.36.2=pyhd3eb1b0_0
   - xz=5.2.5=h7b6447c_0
@@ -63,6 +63,7 @@ dependencies:
     - decorator==4.4.2
     - defusedxml==0.6.0
     - entrypoints==0.3
+    - ftfy==5.8
     - gitdb==4.0.5
     - gitpython==3.1.12
     - idna==2.10
@@ -104,6 +105,7 @@ dependencies:
     - python-dateutil==2.8.1
     - pytz==2021.1
     - pyzmq==22.0.2
+    - regex==2020.11.13
     - requests==2.25.1
     - send2trash==1.5.0
     - smmap==3.0.5
@@ -113,6 +115,7 @@ dependencies:
     - toml==0.10.2
     - toolz==0.11.1
     - tornado==6.1
+    - tqdm==4.56.0
     - traitlets==5.0.5
     - tzlocal==2.1
     - urllib3==1.26.3

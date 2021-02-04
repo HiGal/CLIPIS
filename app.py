@@ -16,24 +16,25 @@ def download_data():
 
 if __name__ == '__main__':
     # dataset = torchvision.datasets.Places365(root=".",download=True)
-
+    device = "cuda:0" if torch.cuda.is_available() else "cpu"
     query = st.text_input("Write your search query")
-    text = clip.tokenize([query])
+    text = clip.tokenize([query]).to(device)
 
     model, preprocess = clip.load("ViT-B/32")
-    cifar100 = download_data()
+    # cifar100 = download_data()
     orig_images = [Image.open("images/"+path) for path in os.listdir("images")]
     images = [preprocess(image).unsqueeze(0) for image in orig_images]
-    images = torch.cat(images)
+    images = torch.cat(images).to(device)
 
     with torch.no_grad():
         text_features = model.encode_text(text)
         images_features = model.encode_image(images)
-        print(images_features.shape)
 
     images_features /= images_features.norm(dim=-1, keepdim=True)
     text_features /= text_features.norm(dim=-1, keepdim=True)
     similarity = (100.0 * images_features @ text_features.T)
-    print(similarity)
+    topk = similarity.topk(k=2, dim=0)[1]
     st.text(torch.max(similarity, dim=0).values.item())
-    st.image(orig_images[torch.argmax(similarity, dim=0).item()], width=512)
+    st.image(orig_images[topk[0]], width=512)
+    st.text(similarity[topk[1]].item())
+    st.image(orig_images[topk[1]], width=512)
