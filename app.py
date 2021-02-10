@@ -1,10 +1,7 @@
 import streamlit as st
-import torchvision
 from torchvision.datasets import CIFAR100
-import os
-import clip
+from api import clip
 import torch
-import random
 from PIL import Image
 import os
 
