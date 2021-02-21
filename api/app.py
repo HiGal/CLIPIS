@@ -3,8 +3,7 @@ import clip
 import torch
 from PIL import Image
 import json
-import base64
-import io
+from utils.indexer import index_one_image, index_many_images
 
 app = Flask(__name__)
 
@@ -12,13 +11,18 @@ app = Flask(__name__)
 @app.route("/encode/image", methods=["POST"])
 def encode_image():
     data = json.loads(request.data)
+    img_name = data['name']
     data = data['img'].encode('ascii')
-    img = Image.open(io.BytesIO(base64.b64decode(data)))
-    image = [preprocess(img).unsqueeze(0)]
-    image = torch.cat(image).to(device)
-    with torch.no_grad():
-        image_features = model.encode_image(image)
-    image_features /= image_features.norm(dim=-1, keepdim=True)
+    index_one_image(data, img_name, model, preprocess, device)
+    return Response("Successful", status=200)
+
+
+@app.route("/encode/images", methods=["POST"])
+def encode_images():
+    data = json.loads(request.data)
+    image_base64_list = data['img_list']
+    image_names = data['img_names']
+    index_many_images(image_base64_list, image_names, model, preprocess, device)
     return Response("Successful", status=200)
 
 
