@@ -14,7 +14,7 @@ if __name__ == '__main__':
     im = base64.b64encode(image)
     base64string = im.decode('utf-8')
     data = {
-        "img": base64string,
+        "base64img": base64string,
         "name": "2.jpg"
     }
     data = json.dumps(data, indent=2)
