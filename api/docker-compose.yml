@@ -4,8 +4,8 @@ services:
   files_db:
     image: mongo
     restart: always
-      ports:
-        - 27017:27017
+    ports:
+      - 27017:27017
 
   api:
     build: ./
