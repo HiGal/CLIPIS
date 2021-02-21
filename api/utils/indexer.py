@@ -14,7 +14,7 @@ def index_one_image(image_base64, image_name, model, preprocess, device='cpu'):
         image_features = model.encode_image(image)
     image_features /= image_features.norm(dim=-1, keepdim=True)
 
-    client = pymongo.MongoClient('localhost', 27017)
+    client = pymongo.MongoClient('files_db', 27017)
     db = client.image_db
     image_collection = db.image_data
     image_collection.insert_one({
@@ -44,7 +44,7 @@ def index_many_images(image_base64_list, image_name_list, model, preprocess, dev
                 "extension": extension
             }
         })
-    client = pymongo.MongoClient('localhost', 27017)
+    client = pymongo.MongoClient('files_db', 27017)
     db = client.image_db
     image_collection = db.image_data
     image_collection.insert_many(candidates_to_insert)

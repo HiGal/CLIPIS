@@ -11,5 +11,7 @@ services:
     build: ./
     ports:
       - "80:80"
+    links:
+      - "files_db"
 
 
