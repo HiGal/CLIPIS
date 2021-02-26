@@ -18,7 +18,7 @@ if __name__ == '__main__':
         "name": "2.jpg"
     }
     data = json.dumps(data, indent=2)
-    r = requests.post("http://127.0.0.1:8000/encode/image", data=data)
+    r = requests.post("http://84.201.156.50/encode/image", data=data)
     assert r.status_code == 200
 
     ####################################################################################################################
@@ -38,11 +38,11 @@ if __name__ == '__main__':
         "img_names": image_names
     }
     data = json.dumps(data, indent=2)
-    r = requests.post("http://127.0.0.1:8000/encode/images", data=data)
+    r = requests.post("http://84.201.156.50/encode/images", data=data)
     assert r.status_code == 200
 
     data = {
         "text": "a blue colored star"
     }
-    r = requests.post("http://127.0.0.1:8000/encode/text", data=json.dumps(data))
+    r = requests.post("http://84.201.156.50/encode/text", data=json.dumps(data))
     assert r.status_code == 200
