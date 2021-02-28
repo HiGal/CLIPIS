@@ -15,11 +15,14 @@ services:
       - "8000:8000"
     links:
       - "files_db"
+      - faiss_indices:/faiss_indices
     networks:
       - global
 
   faiss:
     image: plippe/faiss-web-service:1.5.2
+    volumes:
+      - faiss_indices:/opt/faiss-web-service/resources
     ports:
       - "5050:5000"
     networks:
@@ -50,6 +53,10 @@ services:
       - api-clipis
     networks:
       - global
+
+volumes:
+  faiss_indices:
+
 
 networks:
   global:
