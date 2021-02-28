@@ -15,6 +15,7 @@ services:
       - "8000:8000"
     links:
       - "files_db"
+    volumes:
       - faiss_indices:/faiss_indices
     networks:
       - global
