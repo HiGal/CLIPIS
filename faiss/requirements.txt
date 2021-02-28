@@ -1,0 +1,15 @@
+Flask==1.1.1
+
+Flask-SQLAlchemy
+flask-migrate
+
+flask-cors
+
+psycopg2-binary
+
+gunicorn
+
+jsonschema==3.2.0
+
+sqlalchemy
+SQLAlchemy-Utils==0.31.6
