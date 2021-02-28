@@ -16,14 +16,14 @@ services:
     links:
       - "files_db"
     volumes:
-      - faiss_indices:/faiss_indices
+      - /home/farit/faiss_indices:/faiss_indices
     networks:
       - global
 
   faiss:
     image: plippe/faiss-web-service:1.5.2
     volumes:
-      - faiss_indices:/opt/faiss-web-service/resources
+      - /home/farit/faiss_indices:/opt/faiss-web-service/resources
     ports:
       - "5050:5000"
     networks:
