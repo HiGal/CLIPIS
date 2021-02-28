@@ -9,7 +9,7 @@ services:
     networks:
       - global
 
-  api:
+  api-clipis:
     build: ./api
     ports:
       - "5000:80"
