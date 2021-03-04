@@ -14,9 +14,27 @@
         The next-era image search
       </div>
       <div class="block__input">
-        <span v-if="!dragOver">Enter your text query</span>
-        <input v-if="!dragOver" type="text" placeholder="Kitties in the garden...">
-        <span>or drag an image here</span>
+        <span
+          v-if="!dragOver"
+        >
+          Enter your text query
+        </span>
+        <input
+          v-if="!dragOver"
+          v-model="text"
+          type="text"
+          placeholder="Kitties in the garden..."
+        >
+        <span>
+          or drag an image here
+        </span>
+        <div>
+          <img
+            v-for="img in images"
+            :src="img"
+            alt=""
+          >
+        </div>
       </div>
       <span>Farit Galeev, Arina Kuznetsova, Mikhail Tkachenko, 2021</span>
     </div>
@@ -25,12 +43,21 @@
 
 <script>
   import AppBackground from '~/components/AppBackground'
+  import { getImages } from "../api";
 
   export default {
     components: {AppBackground},
     data: () => ({
-      dragOver: false
-    })
+      dragOver: false,
+      images: [],
+      text: ''
+    }),
+    watch: {
+      async text() {
+        const { data: { results: images }} = await getImages(this.text)
+        this.images = images.map((im) => `https://api.clipis.co/media/${im}`)
+      }
+    }
   }
 </script>
 

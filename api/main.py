@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
 import clip
 import torch
 import json
@@ -10,6 +11,21 @@ import faiss
 import pandas as pd
 
 app = FastAPI()
+
+origins = [
+    "http://clipis.co",
+    "https://clipis.co",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 faiss_index = faiss.read_index("features/image_index")
 files = pd.read_csv("features/files.csv")
 
