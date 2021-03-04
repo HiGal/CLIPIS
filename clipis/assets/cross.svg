@@ -1,0 +1,13 @@
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="oos_confirmation-promo-alert" transform="translate(-1404.000000, -24.000000)">
+      <rect id="Rectangle" fill="#000000"
+            transform="translate(1409.656854, 29.656854) rotate(45.000000) translate(-1409.656854, -29.656854) "
+            x="1402.15685" y="29.1568542" width="15" height="1"></rect>
+      <rect id="Rectangle" fill="#000000"
+            transform="translate(1409.656854, 29.656854) rotate(-45.000000) translate(-1409.656854, -29.656854) "
+            x="1402.15685" y="29.1568542" width="15" height="1"></rect>
+    </g>
+  </g>
+</svg>
