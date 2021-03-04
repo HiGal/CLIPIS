@@ -50,7 +50,7 @@ services:
       - ./nginx:/etc/nginx/conf.d
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/www/certbot:/var/www/certbot
-      - /home/farit/images:/static/media
+      - /home/farit/images:/static/media/images
     depends_on:
       - api-clipis
     networks:
