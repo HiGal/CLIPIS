@@ -20,15 +20,6 @@ services:
     networks:
       - global
 
-  faiss:
-    image: plippe/faiss-web-service:1.5.2
-    volumes:
-      - /home/farit/faiss_indices:/opt/faiss-web-service/resources
-    ports:
-      - "5050:5000"
-    networks:
-      - global
-
   front:
     build:
       context: ./clipis
