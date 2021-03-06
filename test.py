@@ -42,9 +42,9 @@ if __name__ == '__main__':
     # assert r.status_code == 200
     #
     # data = {
-    #     "text": "a blue colored star"
+    #     "text": "a cat in a yellow hat"
     # }
-    # r = requests.post("http://84.201.156.50/encode/text", data=json.dumps(data))
+    # r = requests.post("http://localhost:8000/text/search", data=json.dumps(data))
     # assert r.status_code == 200
 
     with open("images/163.jpg", "rb") as f:
