@@ -68,11 +68,11 @@
     methods: {
       getLocalImages: _.debounce(async function() {
         const { data: { results: images }} = await getImages(this.text)
-        this.images = images.map((im) => `https://api.clipis.co/media/${im}`)
+        this.images = images.map((im) => `https://api.clipis.co/media/thumbs${im}`)
       }, 400, { leading: false, trailing: true }),
       async getImageImages(base64, name) {
         const { data: { results: images }} = await getImagesByImage(base64, name)
-        this.images = images.map((im) => `https://api.clipis.co/media/${im}`)
+        this.images = images.map((im) => `https://api.clipis.co/media/thumbs${im}`)
       },
       getBase64Image (f) {
         const reader = new FileReader();
