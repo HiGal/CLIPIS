@@ -31,7 +31,7 @@ services:
       - global
 
   nginx:
-    image: nginx:latest
+    image: niiknow/nginx-image-proxy:latest
     restart: unless-stopped
     ports:
       - "80:80"
