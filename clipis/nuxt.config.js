@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'clipis',
+    title: 'CLIPIS. Semantic Image Search',
     htmlAttrs: {
       lang: 'en'
     },

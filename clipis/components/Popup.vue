@@ -49,6 +49,8 @@
       border-radius: 12px;
       padding: 40px;
       box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
 
       @media screen and (max-width: 767px){
         padding: 10px;
@@ -69,6 +71,7 @@
     }
     &__image {
       width: 100%;
+      height: inherit;
       object-fit: contain;
     }
   }
