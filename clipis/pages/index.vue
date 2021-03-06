@@ -3,7 +3,7 @@
     <AppBackground/>
     <div
       class="block"
-      :class="{'block--dragover': dragOver}"
+      :class="{ 'block--dragover': dragOver, 'block--content': images.length > 0 }"
       @dragover="dragOver = true"
       @dragleave="dragOver = false"
     >
@@ -14,23 +14,53 @@
         The next-era image search
       </div>
       <div class="block__input">
-        <span v-if="!dragOver">Enter your text query</span>
-        <input v-if="!dragOver" type="text" placeholder="Kitties in the garden...">
-        <span>or drag an image here</span>
+        <span
+          v-if="!dragOver"
+        >
+          Enter your text query
+        </span>
+        <input
+          v-if="!dragOver"
+          v-model="text"
+          type="text"
+          placeholder="Kitties in the garden..."
+        >
+        <span>
+          or drag an image here
+        </span>
       </div>
+      <ImagesGrid
+          v-if="images.length"
+          :images="images"
+      />
       <span>Farit Galeev, Arina Kuznetsova, Mikhail Tkachenko, 2021</span>
     </div>
   </div>
 </template>
 
 <script>
+  import _ from "lodash"
   import AppBackground from '~/components/AppBackground'
+  import { getImages } from "../api";
 
   export default {
     components: {AppBackground},
     data: () => ({
-      dragOver: false
-    })
+      dragOver: false,
+      images: [],
+      text: ''
+    }),
+    methods: {
+      getLocalImages: _.debounce(async function() {
+        const { data: { results: images }} = await getImages(this.text)
+        this.images = images.map((im) => `https://api.clipis.co/media/${im}`)
+      }, 400, { leading: false, trailing: true })
+    },
+    watch: {
+      async text() {
+        this.getLocalImages()
+      }
+    },
   }
 </script>
 
@@ -44,7 +74,6 @@
 
   .block {
     position: absolute;
-    height: 322px;
     z-index: 1000;
     left: 50%;
     top: 50%;
@@ -55,6 +84,18 @@
     border-radius: 10px;
     box-sizing: border-box;
     font-family: Roboto, sans-serif;
+    /*transition: width 0.5s, height 0.5s;*/
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: 767px){
+        width: 80%;
+      }
+
+    &--content {
+      width: calc(100vw - 32px);
+      height: calc(100vh - 32px);
+    }
 
     &--dragover {
       border: 3px dashed #00AAEE;

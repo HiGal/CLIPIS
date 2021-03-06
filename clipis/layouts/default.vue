@@ -1,8 +1,21 @@
 <template>
   <div>
     <Nuxt />
+    <Popup v-if="image"/>
   </div>
 </template>
+
+<script>
+  import { mapState } from 'vuex'
+
+  export default {
+    computed: {
+      ...mapState({
+        image: (state) => state.image
+      })
+    }
+  }
+</script>
 
 <style>
 html {
