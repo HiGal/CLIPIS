@@ -28,8 +28,15 @@
           placeholder="Kitties in the garden..."
         >
         <span>
-          or drag an image here
+          Drag your image here or <a href="" @click.prevent="$refs.fileUpload.click()">upload it</a>
         </span>
+        <input
+          type="file"
+          ref="fileUpload"
+          class="fileUpload"
+          @change="uploadFilesFromInput"
+          multiple
+        />
       </div>
       <ImagesGrid
           v-if="images.length && query !== ''"
@@ -86,6 +93,10 @@
         };
         reader.readAsDataURL(f);
       },
+      uploadFilesFromInput(e) {
+        // CAUTION! Only one file can be uploaded
+        this.getBase64Image(e.target.files[0]);
+      },
       parseImage(e) {
         this.getBase64Image(e.dataTransfer.files[0]);
       }
@@ -141,6 +152,9 @@
 
     &__input {
       margin: 40px 0;
+      .fileUpload {
+        display: none;
+      }
     }
 
     input {
