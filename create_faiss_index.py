@@ -3,8 +3,7 @@ import numpy
 import numpy as np
 
 if __name__ == '__main__':
-    nlist = 16
-    k = 5
+    nlist = 5
     dimension = 512
     quantizer = faiss.IndexFlatL2(dimension)
     index = faiss.IndexIVFFlat(quantizer, dimension, nlist)
