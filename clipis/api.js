@@ -10,5 +10,12 @@ export const getImages = (text) => {
   })
 }
 
+export const getImagesByImage = (base64img, name) => {
+  return api.post('/image/search', {
+    base64img,
+    name
+  })
+}
+
 
 

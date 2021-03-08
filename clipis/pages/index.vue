@@ -3,34 +3,43 @@
     <AppBackground/>
     <div
       class="block"
-      :class="{ 'block--dragover': dragOver, 'block--content': images.length > 0 }"
-      @dragover="dragOver = true"
-      @dragleave="dragOver = false"
+      :class="{'block--content': images.length > 0 && query !== ''}"
+      @dragover.stop.prevent="dragOver = true"
     >
-      <div class="block__title" v-if="!dragOver">
+      <div
+        class="dropzone"
+        v-if="dragOver"
+        @dragleave.stop.prevent="dragOver = false"
+        @drop.prevent="parseImage"
+      >
+        <img src="~/assets/upload.svg" alt="Upload">
+      </div>
+      <div class="block__title">
         CLIPIS
       </div>
-      <div class="block__subtitle" v-if="!dragOver">
+      <div class="block__subtitle">
         The next-era image search
       </div>
       <div class="block__input">
-        <span
-          v-if="!dragOver"
-        >
-          Enter your text query
-        </span>
+        <span>Enter your text query</span>
         <input
-          v-if="!dragOver"
-          v-model="text"
+          v-model="query"
           type="text"
           placeholder="Kitties in the garden..."
         >
         <span>
-          or drag an image here
+          Drag your image here or <a href="" @click.prevent="$refs.fileUpload.click()">upload it</a>
         </span>
+        <input
+          type="file"
+          ref="fileUpload"
+          class="fileUpload"
+          @change="uploadFilesFromInput"
+          multiple
+        />
       </div>
       <ImagesGrid
-          v-if="images.length"
+          v-if="images.length && query !== ''"
           :images="images"
       />
       <span>Farit Galeev, Arina Kuznetsova, Mikhail Tkachenko, 2021</span>
@@ -41,24 +50,55 @@
 <script>
   import _ from "lodash"
   import AppBackground from '~/components/AppBackground'
-  import { getImages } from "../api";
+  import { getImages, getImagesByImage } from "../api";
 
   export default {
     components: {AppBackground},
     data: () => ({
       dragOver: false,
       images: [],
-      text: ''
+      text: '',
+      fileName: ''
     }),
+    computed: {
+      query: {
+        get() {
+          return this.text || this.fileName || ''
+        },
+        set(v) {
+          this.text = v
+          this.fileName = ''
+          this.getLocalImages()
+        }
+      }
+    },
     methods: {
       getLocalImages: _.debounce(async function() {
         const { data: { results: images }} = await getImages(this.text)
-        this.images = images.map((im) => `https://api.clipis.co/media/${im}`)
-      }, 400, { leading: false, trailing: true })
-    },
-    watch: {
-      async text() {
-        this.getLocalImages()
+        this.images = images.map((im) => `https://api.clipis.co/media/thumbs/${im}`)
+      }, 400, { leading: false, trailing: true }),
+      async getImageImages(base64, name) {
+        const { data: { results: images }} = await getImagesByImage(base64, name)
+        this.images = images.map((im) => `https://api.clipis.co/media/thumbs/${im}`)
+      },
+      getBase64Image (f) {
+        const reader = new FileReader();
+        const self = this
+        reader.onload = function () {
+          self.dragOver = false
+          self.text = ''
+          self.fileName = f.name
+          const base64 = reader.result.split(',')[1]
+          self.getImageImages(base64, f.name)
+        };
+        reader.readAsDataURL(f);
+      },
+      uploadFilesFromInput(e) {
+        // CAUTION! Only one file can be uploaded
+        this.getBase64Image(e.target.files[0]);
+      },
+      parseImage(e) {
+        this.getBase64Image(e.dataTransfer.files[0]);
       }
     },
   }
@@ -97,10 +137,6 @@
       height: calc(100vh - 32px);
     }
 
-    &--dragover {
-      border: 3px dashed #00AAEE;
-    }
-
     &__title {
       color: black;
       font-weight: bold;
@@ -116,6 +152,9 @@
 
     &__input {
       margin: 40px 0;
+      .fileUpload {
+        display: none;
+      }
     }
 
     input {
@@ -130,6 +169,24 @@
 
     span {
       color: rgba(0, 0, 0, 0.8)
+    }
+  }
+
+  .dropzone {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ECE8EF;
+    border: 3px dashed #DC493A;
+    border-radius: 10px;
+
+    img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 </style>
