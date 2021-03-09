@@ -5,6 +5,7 @@ import torch
 import json
 
 from utils.search import text_search
+from utils.translation import translate
 from utils.indexer import index_one_image, index_many_images, get_img_features
 from body_models import Image, ImageBatch
 import faiss
@@ -51,6 +52,7 @@ async def encode_images(data: ImageBatch):
 async def search_by_text(request: Request):
     data = json.loads(await request.body())
     text_input = data['text']
+    text_input = translate(text_input, "en")
     tokens = clip.tokenize([text_input]).to(device)
     with torch.no_grad():
         text_features = model.encode_text(tokens)
@@ -75,6 +77,7 @@ async def search_by_image(request: Request):
         "results": results
     }
     return Response(json.dumps(answer), status_code=200)
+
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32")
