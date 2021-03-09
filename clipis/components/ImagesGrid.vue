@@ -8,7 +8,7 @@
       >
         <div
           class="images-grid__card"
-          v-for="img in images"
+          v-for="img in images.slice(0,50)"
           :key="img"
           @click="setImage(img)"
         >
